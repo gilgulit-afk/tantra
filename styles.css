@@ -1,0 +1,841 @@
+/* ==========================================================================
+   אומנות העינוג הטנטרי — שפה עיצובית
+   פלטה שנדגמה מתוך העיצוב המקורי בקנבה
+   ========================================================================== */
+
+:root{
+  /* --- גוונים --- */
+  --cream-light:#FFFCEA;   /* פינת הזהב הבהירה של הגרדיאנט */
+  --cream:#F9F8F0;         /* רקע העמוד */
+  --cream-deep:#F4EDC3;
+  --gold:#DDCD71;          /* הזהב המרכזי */
+  --gold-deep:#C9B65B;
+  --gold-text:#B9A052;
+  --taupe:#D7CEB7;         /* פס הסדנאות הקרובות */
+  --silver:#D9D9D9;        /* פס סדנת הגבר */
+  --brown:#7E5130;         /* כותרות */
+  --brown-soft:#8E6743;
+  --brown-deep:#452922;    /* טקסט על רקע כהה יותר */
+  --tan:#B38A60;           /* כותרת משנה */
+  --rose:#D89A78;          /* דגש ורוד־אפרסק */
+  --lilac:#EDDBE5;         /* הבועות */
+  --ink:#2B2721;           /* גוף הטקסט */
+  --ink-soft:#5A5148;
+
+  /* --- שכבות --- */
+  --grad-warm:linear-gradient(to bottom right,var(--cream-light) 0%,#F6F0CB 48%,var(--gold) 100%);
+  --shadow-photo:0 22px 46px -18px rgba(92,70,26,.45), 0 4px 14px rgba(92,70,26,.10);
+  --shadow-soft:0 18px 40px -22px rgba(92,70,26,.40);
+  --shadow-btn:0 6px 16px -8px rgba(60,42,18,.45);
+
+  /* --- מקצבים --- */
+  --wrap:1080px;
+  --pad-y:clamp(58px,8vw,112px);
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--cream);
+  color:var(--ink);
+  font-family:'Heebo',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-weight:300;
+  font-size:clamp(16.5px,1.15vw + 12px,20px);
+  line-height:1.8;
+  direction:rtl;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+img{max-width:100%;height:auto;display:block;}
+h1,h2,h3{margin:0;font-weight:300;line-height:1.25;letter-spacing:.005em;}
+p{margin:0 0 1.1em;}
+p:last-child{margin-bottom:0;}
+a{color:inherit;text-decoration:none;}
+::selection{background:var(--gold);color:#3B2A12;}
+
+/* ספרות ותאריכים — סריף עדין, כמו במקור */
+.num{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;letter-spacing:.02em;
+     font-size:1.12em;direction:ltr;unicode-bidi:isolate;display:inline-block;}
+.price .num{font-family:'Playfair Display',Georgia,serif;font-size:1.42em;
+            font-weight:600;font-variant-numeric:lining-nums;letter-spacing:.005em;}
+.price .shekel{
+  font-family:'Heebo',sans-serif;   /* ל-Cormorant אין גליף ₪ */
+  font-size:1.12em;
+  font-weight:400;
+  margin-inline-start:.08em;
+}
+
+/* ---------- מבנה ---------- */
+.wrap{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:24px;}
+.wrap--narrow{max-width:860px;}
+.wrap--form{max-width:720px;}
+.center{text-align:center;}
+
+.band{position:relative;padding-block:var(--pad-y);}
+.band--cream{background:var(--cream);}
+.band--taupe{background:var(--taupe);}
+.band--silver{background:var(--silver);}
+.band--gold{background:var(--gold);}
+.band--gradient{background:var(--grad-warm);}
+
+.band__title{
+  font-size:clamp(25px,3.1vw + 10px,40px);
+  color:var(--brown);
+  text-align:center;
+  margin-bottom:clamp(26px,4vw,46px);
+  font-weight:300;
+}
+.band__title--onGold{color:var(--brown-deep);}
+.sub-title{
+  font-size:clamp(21px,1.7vw + 12px,30px);
+  color:var(--brown-deep);
+  text-align:center;
+  margin:clamp(34px,5vw,54px) 0 clamp(16px,2vw,24px);
+}
+
+/* ==========================================================================
+   כפתורים
+   ========================================================================== */
+.btn{
+  display:inline-block;
+  background:var(--silver);
+  border:1px solid rgba(60,45,25,.42);
+  border-radius:9px;
+  padding:.72em 2.5em;
+  color:#9E7550;
+  font-family:inherit;
+  font-size:clamp(17px,.5vw + 15px,20px);
+  font-weight:500;
+  letter-spacing:.03em;
+  cursor:pointer;
+  box-shadow:var(--shadow-btn);
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease),
+             background-color .35s var(--ease),color .35s var(--ease);
+}
+.btn:hover,.btn:focus-visible{
+  background:#E4E0CE;
+  color:var(--brown);
+  transform:translateY(-2px);
+  box-shadow:0 12px 24px -10px rgba(60,42,18,.5);
+}
+.btn:active{transform:translateY(0);}
+
+.btn--lg{padding:.82em 3em;font-size:clamp(18px,.6vw + 15.5px,21px);}
+
+/* כפתור צף — מובייל בלבד */
+.cta-float{
+  position:fixed;
+  inset-block-end:16px;
+  inset-inline-start:50%;
+  transform:translate(50%,140%);
+  z-index:40;
+  background:var(--gold);
+  color:#4A3616;
+  font-weight:500;
+  font-size:17px;
+  letter-spacing:.03em;
+  padding:.7em 2.4em;
+  border-radius:100px;
+  box-shadow:0 10px 26px -8px rgba(80,60,15,.6);
+  transition:transform .45s var(--ease),opacity .35s var(--ease);
+  opacity:0;
+}
+.cta-float.is-visible{transform:translate(50%,0);opacity:1;}
+
+/* ==========================================================================
+   פרח הקישוט — האלמנט הגרפי החוזר
+   ========================================================================== */
+.flower{
+  width:clamp(30px,4vw,42px);
+  aspect-ratio:1;
+  margin:0 auto clamp(22px,3vw,34px);
+  background:var(--gold-deep);
+  -webkit-mask:var(--flower-mask) center/contain no-repeat;
+  mask:var(--flower-mask) center/contain no-repeat;
+  --flower-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg fill='%23000'%3E%3Cg id='p'%3E%3Cellipse cx='50' cy='24' rx='13' ry='20'/%3E%3C/g%3E%3Cuse href='%23p' transform='rotate(45 50 50)'/%3E%3Cuse href='%23p' transform='rotate(90 50 50)'/%3E%3Cuse href='%23p' transform='rotate(135 50 50)'/%3E%3Cuse href='%23p' transform='rotate(180 50 50)'/%3E%3Cuse href='%23p' transform='rotate(225 50 50)'/%3E%3Cuse href='%23p' transform='rotate(270 50 50)'/%3E%3Cuse href='%23p' transform='rotate(315 50 50)'/%3E%3Ccircle cx='50' cy='50' r='9'/%3E%3C/g%3E%3C/svg%3E");
+}
+.flower--divider{margin-block:clamp(30px,5vw,48px);}
+.flower--light{background:rgba(255,253,240,.85);}
+.flower--sm{width:26px;margin-bottom:18px;background:var(--gold-deep);}
+
+/* ==========================================================================
+   מסך פתיחה
+   ========================================================================== */
+.hero{
+  position:relative;
+  background:var(--grad-warm);
+  padding-block:clamp(46px,7vw,86px) 0;
+  overflow:hidden;
+  isolation:isolate;
+}
+/* הילת העומק הכסופה שמאחורי הכותרת */
+.hero__orb{
+  position:absolute;
+  z-index:-1;
+  inset-block-end:-10%;
+  left:50%;                      /* פיזי בכוונה: ממורכז בשני כיווני הכתיבה */
+  transform:translateX(-50%);
+  width:min(112vw,1180px);
+  aspect-ratio:1;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 50% 50%,
+      rgba(255,255,250,0) 0%,
+      rgba(255,255,250,0) 69.4%,
+      rgba(150,148,142,.16) 69.6%,
+      rgba(150,148,142,.16) 71.2%,
+      rgba(255,255,250,0) 71.6%),
+    radial-gradient(circle at 36% 26%,
+      rgba(128,126,120,.30) 0%,
+      rgba(160,158,151,.22) 38%,
+      rgba(208,206,198,.12) 60%,
+      rgba(249,248,240,0) 71%);
+  filter:blur(1px);
+}
+.hero__glow{
+  position:absolute;z-index:-1;inset-block-start:-30%;inset-inline-end:-18%;
+  width:min(80vw,760px);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,245,.85),rgba(255,255,245,0) 68%);
+}
+.hero__inner{
+  position:relative;
+  max-width:var(--wrap);
+  margin-inline:auto;
+  padding:0 24px clamp(64px,9vw,108px);
+}
+.hero__photo{
+  margin:0 auto clamp(40px,6vw,72px);
+  max-width:min(625px,86%);
+  box-shadow:var(--shadow-photo);
+}
+.hero__photo img{width:100%;}
+
+.hero__titles{text-align:center;}
+.hero h1{
+  font-size:clamp(30px,5.2vw + 6px,62px);
+  font-weight:200;
+  color:var(--gold-text);
+  letter-spacing:.055em;
+  margin-bottom:clamp(20px,3vw,34px);
+  text-shadow:0 1px 0 rgba(255,255,255,.5);
+}
+.hero__kicker{
+  font-size:clamp(23px,3.4vw + 8px,45px);
+  font-weight:200;
+  color:var(--tan);
+  letter-spacing:.035em;
+  margin-bottom:clamp(24px,3.5vw,42px);
+}
+.hero__gate{
+  font-size:clamp(20px,2.4vw + 8px,38px);
+  font-weight:300;
+  color:var(--brown);
+  line-height:1.5;
+  letter-spacing:.015em;
+  margin-bottom:clamp(30px,4vw,46px);
+}
+
+/* ==========================================================================
+   הסדנאות הקרובות
+   ========================================================================== */
+.dates__grid{display:flex;flex-direction:column;align-items:center;text-align:center;width:100%;}
+.datecard{width:100%;max-width:760px;}
+.datecard h3{
+  font-size:clamp(22px,1.9vw + 12px,32px);
+  color:var(--brown);
+  margin-bottom:clamp(16px,2vw,24px);
+  font-weight:400;
+}
+
+/* כרטיס תאריך לחיץ */
+.slots{display:grid;gap:clamp(12px,1.6vw,18px);}
+.slot{
+  display:block;
+  background:linear-gradient(to bottom right,rgba(255,253,244,.94),rgba(250,246,226,.88));
+  border:1px solid rgba(146,118,74,.28);
+  border-radius:16px;
+  padding:clamp(18px,2.6vw,26px) clamp(16px,3vw,30px);
+  box-shadow:0 10px 24px -16px rgba(92,70,26,.55);
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease),
+             border-color .3s var(--ease),background-color .3s var(--ease);
+}
+.slot:hover,.slot:focus-visible{
+  transform:translateY(-3px);
+  border-color:var(--gold-deep);
+  box-shadow:0 18px 34px -18px rgba(92,70,26,.6);
+  outline:none;
+}
+.slot:focus-visible{box-shadow:0 0 0 3px rgba(221,205,113,.55),0 18px 34px -18px rgba(92,70,26,.6);}
+.slot:active{transform:translateY(-1px);}
+.slot__date{
+  display:block;
+  color:var(--brown);
+  font-size:clamp(28px,2.6vw + 16px,42px);
+  line-height:1.15;
+  letter-spacing:.01em;
+}
+.slot__time{
+  display:block;
+  margin-top:.12em;
+  color:var(--brown);
+  font-size:clamp(28px,2.6vw + 16px,42px);   /* זהה בדיוק לגודל התאריך */
+  line-height:1.15;
+  letter-spacing:.01em;
+}
+.slot__place{
+  display:block;
+  margin-top:.5em;
+  color:var(--brown-soft);
+  font-size:clamp(17px,.7vw + 14px,21px);
+  letter-spacing:.06em;
+}
+.slot__cta{
+  display:inline-block;
+  margin-top:clamp(12px,1.6vw,18px);
+  color:#9E7550;
+  font-size:clamp(15px,.4vw + 13.5px,17px);
+  font-weight:500;
+  letter-spacing:.04em;
+  border-bottom:1px solid rgba(158,117,80,.4);
+  padding-bottom:2px;
+  transition:color .3s var(--ease),border-color .3s var(--ease);
+}
+.slot:hover .slot__cta{color:var(--brown);border-color:var(--brown);}
+
+/* ==========================================================================
+   פתח דבר
+   ========================================================================== */
+.intro{padding-block-end:0;}
+.lead{
+  text-align:center;
+  font-size:clamp(18px,1.5vw + 13px,26px);
+  line-height:1.72;
+  font-weight:300;
+  color:var(--ink);
+  max-width:24em;
+  margin-inline:auto;
+}
+.lead--sm{font-size:clamp(17px,.9vw + 13.5px,21px);max-width:34em;color:var(--brown-deep);}
+.intro .center{margin-top:clamp(30px,4vw,46px);}
+
+.photo{margin:clamp(52px,7vw,92px) auto 0;padding:0;}
+.photo--wide{max-width:min(938px,100%);}
+.photo img{width:100%;}
+
+/* ==========================================================================
+   סדנת האישה
+   ========================================================================== */
+.eyebrow{
+  text-align:center;
+  color:var(--rose);
+  font-size:clamp(20px,1.7vw + 12px,29px);
+  font-weight:300;
+  letter-spacing:.03em;
+  margin-bottom:clamp(26px,3.5vw,42px);
+}
+.qa{margin-bottom:clamp(38px,5vw,62px);}
+.qa:last-child{margin-bottom:0;}
+.qa h2,
+.qa h3{
+  text-align:center;
+  font-size:clamp(22px,2vw + 12px,33px);
+  color:var(--brown);
+  margin-bottom:clamp(16px,2vw,26px);
+  font-weight:300;
+}
+.qa p{
+  text-align:center;
+  color:var(--brown-deep);
+  font-size:clamp(16.5px,.8vw + 13.5px,20px);
+  line-height:1.82;
+  max-width:36em;
+  margin-inline:auto;
+}
+
+/* ==========================================================================
+   מה נחקור
+   ========================================================================== */
+.explore__list{display:grid;gap:clamp(30px,4.5vw,52px);}
+.topic{text-align:center;}
+.topic h3{
+  font-size:clamp(20px,1.5vw + 12px,27px);
+  color:var(--brown-deep);
+  margin-bottom:.55em;
+  font-weight:400;
+}
+.topic p{
+  color:var(--tan);
+  font-size:clamp(16.5px,.8vw + 13.5px,20px);
+  max-width:38em;
+  margin-inline:auto;
+  line-height:1.8;
+}
+
+/* ==========================================================================
+   סדנת הגבר
+   ========================================================================== */
+.man .band__title{color:var(--brown-deep);}
+.pair{
+  display:grid;
+  gap:clamp(24px,3.5vw,44px);
+  margin-top:clamp(34px,4.5vw,54px);
+  text-align:center;
+}
+.pair__col h3{
+  font-size:clamp(19px,1.2vw + 13px,24px);
+  color:var(--brown);
+  margin-bottom:.45em;
+  font-weight:500;
+}
+.pair__col p{
+  color:var(--brown-deep);
+  font-size:clamp(16.5px,.7vw + 14px,19.5px);
+  max-width:30em;margin-inline:auto;
+}
+.gems{list-style:none;margin:0;padding:0;text-align:center;}
+.gems li{
+  color:var(--brown-deep);
+  font-size:clamp(16.5px,.8vw + 13.5px,20px);
+  line-height:1.8;
+  max-width:40em;
+  margin:0 auto .85em;
+  padding-inline-start:0;
+}
+.gems li::before{
+  content:"";
+  display:inline-block;
+  width:.62em;height:.62em;
+  margin-inline-end:.6em;
+  background:var(--gold-deep);
+  transform:rotate(45deg) translateY(-.05em);
+  border-radius:2px;
+}
+.gems strong{font-weight:500;color:var(--brown);}
+
+/* ==========================================================================
+   משפט מפתח
+   ========================================================================== */
+.statement{padding-block:clamp(46px,6vw,80px);}
+.statement p{
+  text-align:center;
+  color:var(--brown-deep);
+  font-size:clamp(20px,1.9vw + 12px,32px);
+  font-weight:300;
+  line-height:1.5;
+  letter-spacing:.015em;
+  max-width:24em;
+  margin-inline:auto;
+}
+
+/* ==========================================================================
+   הבועה הליליכית
+   ========================================================================== */
+.blob{
+  position:relative;
+  width:clamp(210px,26vw,300px);
+  aspect-ratio:2.05/1;
+  margin:0 auto clamp(46px,6vw,72px);
+  display:grid;
+  place-items:center;
+  filter:drop-shadow(0 10px 20px rgba(120,90,110,.16));
+}
+.blob::before{
+  content:"";
+  position:absolute;inset:0;
+  background:var(--lilac);
+  border-radius:47% 53% 58% 42% / 61% 39% 61% 39%;
+  transform:rotate(-1.6deg);
+}
+.blob span{
+  position:relative;
+  color:var(--brown-deep);
+  font-size:clamp(18px,1.2vw + 13px,24px);
+  font-weight:400;
+  letter-spacing:.03em;
+}
+
+/* ==========================================================================
+   מי אנחנו
+   ========================================================================== */
+.person{
+  display:grid;
+  grid-template-columns:minmax(0,300px) minmax(0,1fr);
+  gap:clamp(26px,4vw,56px);
+  align-items:center;
+  margin-bottom:clamp(50px,7vw,86px);
+}
+.person:last-child{margin-bottom:0;}
+.person__photo{margin:0;}
+.person__photo img{
+  width:100%;
+  background:#fff;
+  padding:10px;
+  box-shadow:var(--shadow-soft);
+}
+.person__text h3{
+  font-size:clamp(24px,2.2vw + 12px,36px);
+  color:var(--brown);
+  margin-bottom:clamp(14px,1.6vw,22px);
+  font-weight:300;
+  letter-spacing:.02em;
+}
+.person__text p{
+  color:var(--ink-soft);
+  font-size:clamp(16.5px,.8vw + 13.5px,19.5px);
+  line-height:1.78;
+  margin-bottom:.7em;
+}
+
+/* ==========================================================================
+   עלויות — העיגול
+   ========================================================================== */
+.circle{
+  width:min(92vw,620px);
+  aspect-ratio:1;
+  margin-inline:auto;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:radial-gradient(circle at 42% 34%,#FCF8DF 0%,#F7F0C4 55%,#EFE6AE 100%);
+  box-shadow:0 30px 60px -26px rgba(96,74,20,.5),
+             inset 0 0 60px rgba(255,255,255,.55);
+  padding:clamp(28px,6vw,64px);
+  text-align:center;
+}
+.circle__inner{max-width:26em;}
+.price{
+  color:var(--brown-deep);
+  font-size:clamp(16px,1vw + 13px,21px);
+  line-height:1.65;
+  margin-bottom:1.1em;
+  text-wrap:balance;
+}
+.price b{font-weight:500;color:var(--brown);}
+.price .nb{white-space:nowrap;}
+.price--hl b{color:#8B4E24;}
+.note{
+  color:var(--brown-soft);
+  font-size:clamp(14.5px,.6vw + 12.5px,17.5px);
+  line-height:1.6;
+  margin-bottom:1.6em;
+}
+.circle .btn{font-size:clamp(15.5px,.5vw + 13.5px,18px);padding:.62em 2.1em;}
+
+/* ==========================================================================
+   פוטר
+   ========================================================================== */
+.registration .band__title{margin-bottom:clamp(28px,4vw,42px);}
+
+.footer{
+  background:var(--grad-warm);
+  padding-block:clamp(44px,6vw,72px);
+  text-align:center;
+}
+.footer__title{
+  font-size:clamp(20px,1.6vw + 13px,27px);
+  color:var(--gold-text);
+  font-weight:200;
+  letter-spacing:.06em;
+  margin-bottom:.35em;
+}
+.footer__sub{color:var(--brown);font-size:clamp(15.5px,.5vw + 13.5px,18px);margin-bottom:.5em;}
+.footer__names{color:var(--tan);font-size:clamp(14.5px,.4vw + 13px,16.5px);letter-spacing:.04em;margin:0;}
+
+/* ==========================================================================
+   אנימציות כניסה
+   ========================================================================== */
+.reveal{opacity:0;transform:translateY(22px);}
+.js .reveal{transition:opacity .85s var(--ease),transform .85s var(--ease);}
+.reveal.is-in{opacity:1;transform:none;}
+.reveal[data-delay="1"]{transition-delay:.1s;}
+.reveal[data-delay="2"]{transition-delay:.2s;}
+.reveal[data-delay="3"]{transition-delay:.3s;}
+html:not(.js) .reveal{opacity:1;transform:none;}
+
+/* ==========================================================================
+   נקודות שבירה
+   ========================================================================== */
+@media (min-width:700px){
+  .pair{grid-template-columns:1fr 1fr;text-align:center;}
+  .pair--single{grid-template-columns:minmax(0,1fr);}
+}
+@media (min-width:900px){
+  .explore__list{gap:clamp(34px,4vw,54px);}
+}
+
+@media (max-width:700px){
+  .person{grid-template-columns:1fr;justify-items:center;text-align:center;gap:22px;}
+  .person__photo{max-width:250px;}
+  .person__text p{max-width:32em;}
+  .hero__photo{max-width:100%;}
+  .circle{
+    width:100%;
+    aspect-ratio:auto;
+    border-radius:34px;
+    padding:clamp(30px,8vw,46px) clamp(22px,6vw,34px);
+  }
+  body{line-height:1.75;}
+  .slot{padding:20px 16px;border-radius:14px;}
+  .slot__date,.slot__time{font-size:clamp(26px,7.4vw,34px);}
+}
+
+@media (max-width:420px){
+  .blob{width:min(88vw,240px);}
+  .btn{padding:.7em 2em;}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  .reveal{opacity:1!important;transform:none!important;transition:none!important;}
+  .cta-float{transition:none;}
+  *{animation-duration:.01ms!important;}
+}
+
+/* ==========================================================================
+   מקומות אחרונים (אחרי המחירים)
+   ========================================================================== */
+.spots{
+  display:grid;
+  gap:clamp(12px,1.6vw,18px);
+  max-width:620px;
+  margin:clamp(34px,5vw,54px) auto 0;
+}
+.spot{
+  background:linear-gradient(to bottom right,rgba(255,253,244,.94),rgba(250,246,226,.88));
+  border:1px solid rgba(146,118,74,.28);
+  border-radius:16px;
+  padding:clamp(16px,2.4vw,22px) clamp(16px,3vw,26px);
+  box-shadow:0 10px 24px -16px rgba(92,70,26,.55);
+  text-align:center;
+}
+.spot__when{
+  color:var(--brown);
+  font-size:clamp(18px,1vw + 14px,22px);
+  margin-bottom:.35em;
+}
+.spot__left{
+  color:var(--brown-soft);
+  font-size:clamp(16px,.6vw + 13.5px,18.5px);
+  margin-bottom:0;
+}
+.spot__left b{color:#8B4E24;font-weight:500;}
+
+/* המחיר הישן מחוק, לצידו מחיר ההרשמה המוקדמת */
+.pricebox{
+  display:inline-flex;
+  align-items:baseline;
+  gap:.65em;
+  margin:clamp(12px,1.6vw,16px) 0 0;
+  padding:.4em 1.1em;
+  border:1px solid rgba(146,118,74,.45);
+  border-radius:12px;
+  background:rgba(255,255,250,.7);
+}
+.pricebox s{
+  font-family:'Playfair Display',Georgia,serif;   /* אותן ספרות כמו המחיר החדש */
+  font-variant-numeric:lining-nums;
+  font-weight:500;
+  color:var(--brown-soft);
+  opacity:.85;
+  font-size:1.35em;
+  text-decoration-thickness:2px;
+  text-decoration-color:rgba(139,78,36,.75);
+}
+.pricebox__new{
+  font-family:'Playfair Display',Georgia,serif;
+  font-weight:600;
+  font-variant-numeric:lining-nums;
+  font-size:1.9em;
+  color:#8B4E24;
+}
+.pricebox .shekel{
+  font-family:'Heebo',sans-serif;
+  font-size:1.2em;
+  font-weight:400;
+  color:#8B4E24;
+  margin-inline-start:-.3em;
+}
+
+
+/* ==========================================================================
+   שאלות ותשובות — כפתור שנפתח
+   ========================================================================== */
+.faq__list{display:grid;gap:clamp(12px,1.6vw,16px);}
+
+.faq-item{
+  background:linear-gradient(to bottom right,rgba(255,253,244,.94),rgba(250,246,226,.88));
+  border:1px solid rgba(146,118,74,.28);
+  border-radius:16px;
+  box-shadow:0 10px 24px -16px rgba(92,70,26,.55);
+  overflow:hidden;
+  transition:border-color .3s var(--ease),box-shadow .3s var(--ease);
+}
+.faq-item[open]{
+  border-color:var(--gold-deep);
+  box-shadow:0 16px 30px -18px rgba(92,70,26,.6);
+}
+
+/* השאלה עצמה — הכפתור */
+.faq-item summary{
+  display:flex;
+  align-items:center;
+  gap:.8em;
+  cursor:pointer;
+  list-style:none;
+  padding:clamp(16px,2.2vw,22px) clamp(16px,3vw,26px);
+  color:var(--brown);
+  font-size:clamp(17.5px,.9vw + 14px,22px);
+  font-weight:400;
+  line-height:1.45;
+  transition:color .25s var(--ease),background-color .25s var(--ease);
+}
+.faq-item summary::-webkit-details-marker{display:none;}   /* סמן ברירת המחדל */
+.faq-item summary:hover{background:rgba(255,255,250,.55);color:var(--brown-deep);}
+.faq-item summary:focus-visible{
+  outline:none;
+  box-shadow:inset 0 0 0 3px rgba(221,205,113,.65);
+}
+
+/* הפלוס שמסתובב ל-X עדין בפתיחה */
+.faq-item summary::after{
+  content:"";
+  flex:0 0 auto;
+  margin-inline-start:auto;
+  width:1.05em;height:1.05em;
+  background:var(--gold-deep);
+  -webkit-mask:var(--plus) center/contain no-repeat;
+  mask:var(--plus) center/contain no-repeat;
+  --plus:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 5v14M5 12h14' stroke='%23000' stroke-width='2.2' stroke-linecap='round' fill='none'/%3E%3C/svg%3E");
+  transition:transform .3s var(--ease);
+}
+.faq-item[open] summary::after{transform:rotate(45deg);}
+
+/* התשובה */
+.faq-a{
+  padding:0 clamp(16px,3vw,26px) clamp(18px,2.4vw,24px);
+  animation:faqIn .32s var(--ease);
+}
+.faq-a p{
+  color:var(--brown-deep);
+  font-size:clamp(16.5px,.7vw + 14px,19.5px);
+  line-height:1.8;
+}
+.faq-a .gems--faq{
+  margin-top:clamp(10px,1.4vw,14px);
+  text-align:start;
+  max-width:none;
+}
+.faq-a .gems--faq li{margin:0 0 .45em;}
+.faq-a .gems--faq li:last-child{margin-bottom:0;}
+
+@keyframes faqIn{
+  from{opacity:0;transform:translateY(-6px);}
+  to{opacity:1;transform:none;}
+}
+@media (prefers-reduced-motion:reduce){
+  .faq-a{animation:none;}
+  .faq-item summary::after{transition:none;}
+}
+
+/* ==========================================================================
+   פידבקים — קרוסלה שאפשר לדפדף בה
+   ========================================================================== */
+.voices__wrap{
+  display:flex;
+  align-items:center;
+  gap:clamp(6px,1.4vw,16px);
+}
+
+.voices__track{
+  flex:1 1 auto;
+  min-width:0;
+  display:flex;
+  gap:clamp(14px,2vw,22px);
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  scroll-behavior:smooth;
+  padding-block:6px;
+  scrollbar-width:none;            /* פס הגלילה מוסתר — הדפדוף בהחלקה/בחיצים */
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior-x:contain;
+}
+.voices__track::-webkit-scrollbar{display:none;}
+.voices__track:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(255,253,240,.75);border-radius:18px;}
+
+.voice{
+  flex:0 0 min(86%,340px);
+  scroll-snap-align:center;
+  margin:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  background:linear-gradient(to bottom right,rgba(255,253,244,.95),rgba(250,246,226,.9));
+  border:1px solid rgba(146,118,74,.3);
+  border-radius:18px;
+  padding:clamp(24px,3.4vw,34px) clamp(20px,3vw,30px);
+  box-shadow:0 12px 26px -16px rgba(92,70,26,.6);
+}
+.voice blockquote{
+  margin:0;
+  color:var(--brown-deep);
+  font-size:clamp(16px,.8vw + 13.5px,19px);
+  line-height:1.75;
+}
+.voice blockquote::before{content:"”";color:rgba(110,72,34,.55);}
+.voice blockquote::after{content:"”";color:rgba(110,72,34,.55);}
+
+/* חיצים — למסכים עם עכבר */
+.voices__arrow{
+  flex:0 0 auto;
+  width:44px;height:44px;
+  display:none;
+  place-items:center;
+  border:1px solid rgba(110,80,35,.35);
+  border-radius:50%;
+  background:rgba(255,253,240,.8);
+  cursor:pointer;
+  transition:background-color .25s var(--ease),transform .25s var(--ease),opacity .25s var(--ease);
+}
+.voices__arrow::before{
+  content:"";
+  width:11px;height:11px;
+  /* גבולות פיזיים בכוונה: הלוגיים מתהפכים בכיוון ימין-לשמאל */
+  border-top:2px solid var(--brown);
+  border-right:2px solid var(--brown);
+}
+.voices__arrow--prev::before{transform:rotate(45deg) translate(-2px,2px);}    /* חץ ימינה — אחורה */
+.voices__arrow--next::before{transform:rotate(-135deg) translate(-2px,2px);}  /* חץ שמאלה — קדימה */
+.voices__arrow:hover{background:#fff;transform:scale(1.06);}
+.voices__arrow:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(255,253,240,.9);}
+.voices__arrow[disabled]{opacity:.3;cursor:default;transform:none;}
+
+/* נקודות המיקום */
+.voices__dots{
+  display:flex;
+  justify-content:center;
+  gap:9px;
+  margin-top:clamp(18px,2.6vw,26px);
+}
+.voices__dots button{
+  width:9px;height:9px;
+  padding:0;
+  border:0;
+  border-radius:50%;
+  background:rgba(90,65,25,.3);
+  cursor:pointer;
+  transition:background-color .25s var(--ease),transform .25s var(--ease);
+}
+.voices__dots button[aria-selected="true"]{background:#6E4A22;transform:scale(1.35);}
+.voices__dots button:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(255,253,240,.9);}
+
+@media (hover:hover) and (min-width:760px){
+  .voices__arrow{display:grid;}
+  .voice{flex-basis:min(44%,360px);}
+}
+@media (prefers-reduced-motion:reduce){
+  .voices__track{scroll-behavior:auto;}
+}
